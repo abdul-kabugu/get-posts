@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
 
+import {useQuery} from '@apollo/client'
+import {TEST_GET_PUB} from './graphql/query/getPost'
+import ReactAudioPlayer from 'react-audio-player'
 function App() {
+  
+  const {data, loading, error} = useQuery(TEST_GET_PUB)
+  console.log("data", data)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+             <div>
+              <p>Album name : {data?.publication?.metadata?.name}</p>
+            <ReactAudioPlayer  
+              src={data?.publication?.metadata?.media[0]?.original?.url}
+              controls
+             />
+            </div>
     </div>
   );
 }
